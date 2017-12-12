@@ -1,1 +1,1 @@
-include ':app', ':fluks-core', ':fluks-cipher'
+include ':fluks-core', ':fluks-cipher'
