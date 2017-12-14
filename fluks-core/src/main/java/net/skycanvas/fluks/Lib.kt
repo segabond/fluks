@@ -24,17 +24,30 @@ fun <T> getTypedFromAny(value: Any?, clazz: Class<T>): T? {
         return null
     }
 
-    val ret = if (clazz.isAssignableFrom(Boolean::class.java)) {
+    val ret = if (clazz.isAssignableFrom(java.lang.Boolean::class.java)) {
         when (value) {
             is Int -> (value != 0) as T
             is Long -> (value != 0L) as T
             else -> throw UnsupportedTypeException("Cannot get boolean value from type ${value?.let { it::class.java }}")
         }
-    } else if (clazz.isAssignableFrom(Integer::class.java)) {
+    } else if (clazz.isAssignableFrom(java.lang.Integer::class.java)) {
         when (value) {
             is Int -> value as T
             is Long -> value.toInt() as T
-            else -> throw UnsupportedTypeException("Cannot get boolean value from type ${value?.let { it::class.java }}")
+            else -> throw UnsupportedTypeException("Cannot get $clazz value from type ${value?.let { it::class.java }}")
+        }
+
+    } else if (clazz.isAssignableFrom(java.lang.Double::class.java)) {
+        when (value) {
+            is Double -> value as T
+            is Float -> value.toFloat() as T
+            else -> throw UnsupportedTypeException("Cannot get $clazz value from type ${value?.let { it::class.java }}")
+        }
+    } else if (clazz.isAssignableFrom(java.lang.Float::class.java)) {
+        when (value) {
+            is Double -> value.toFloat() as T
+            is Float -> value as T
+            else -> throw UnsupportedTypeException("Cannot get $clazz value from type ${value?.let { it::class.java }}")
         }
 
     } else {

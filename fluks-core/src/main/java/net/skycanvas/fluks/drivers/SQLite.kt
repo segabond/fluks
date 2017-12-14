@@ -36,7 +36,7 @@ class SQLiteDriver(path: String) : DatabaseDriver {
             return when (cursor.getType(columnIndex)) {
                 FIELD_TYPE_INTEGER -> cursor.getLong(columnIndex)
                 FIELD_TYPE_STRING -> cursor.getString(columnIndex)
-                FIELD_TYPE_FLOAT -> cursor.getFloat(columnIndex)
+                FIELD_TYPE_FLOAT -> cursor.getDouble(columnIndex)
                 FIELD_TYPE_BLOB -> cursor.getBlob(columnIndex)
                 FIELD_TYPE_NULL -> null
                 else -> throw UnsupportedTypeException()
