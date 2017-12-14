@@ -11,7 +11,7 @@ inline fun <reified T> Column(name: String): Column<T> {
  * Columns
  */
 @Suppress("UNCHECKED_CAST")
-class Column<T>(val name: String, val clazz: Class<T>, val isNullable: Boolean) : Expression() {
+class Column<T>(val name: String, val clazz: Class<T>, val isNullable: Boolean) : Expression {
     fun convert(mixed: Any): T {
         return getTypedFromAny(mixed, clazz) as T
     }
@@ -20,7 +20,8 @@ class Column<T>(val name: String, val clazz: Class<T>, val isNullable: Boolean) 
         get() {
             return if (clazz.isAssignableFrom(String::class.java)) {
                 ColumnType.TEXT
-            } else if (clazz.isAssignableFrom(Double::class.java)) {
+            } else if (clazz.isAssignableFrom(java.lang.Double::class.java) ||
+                    clazz.isAssignableFrom(java.lang.Float::class.java)) {
                 ColumnType.REAL
             } else if (clazz.isAssignableFrom(ByteArray::class.java)) {
                 ColumnType.BLOB
@@ -53,7 +54,7 @@ class Setter(val field: Expression, var value: Expression)
 /**
  * Tables
  */
-class Table(val name: String) : Expression() {
+class Table(val name: String) : Expression {
     override fun render(): String {
         return quotedIdentifier(name)
     }
@@ -124,7 +125,7 @@ class ColumnDefinition(val name: Expression,
                        val primaryKey: Boolean,
                        val unique: Boolean,
                        val autoincrement: Boolean,
-                       val notNull: Boolean) : Expression() {
+                       val notNull: Boolean) : Expression {
     override fun render(): String {
         val pk = if (primaryKey) " PRIMARY KEY" else ""
         val nn = if (notNull) " NOT NULL" else ""
