@@ -24,10 +24,10 @@ if (!db.scalar<Boolean>(users.exists())) {
 }
 
 db.exec(
-    users.insert(
-        name to "John Smith",
-        email to "john.smith@example.com"
-    )
+    users.insert {
+        it[name] = "John Smith"
+        it[email] = "john.smith@example.com"
+    }
 )
 
 
@@ -47,9 +47,9 @@ repositories {
 
 dependencies {
     // for SQLite
-    compile 'net.skycanvas.flux:flux-core:0.1.5'
+    compile 'net.skycanvas.flux:flux-core:0.1.7'
     // for SQLite + SQLCipher
-    compile 'net.skycanvas.flux:flux-cipher:0.1.5'
+    compile 'net.skycanvas.flux:flux-cipher:0.1.7'
 
 }
 ```
