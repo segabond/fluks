@@ -1,6 +1,5 @@
 package net.skycanvas.fluks
 
-import android.text.BoringLayout
 import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith

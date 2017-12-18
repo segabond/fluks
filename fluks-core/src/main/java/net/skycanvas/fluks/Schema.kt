@@ -41,15 +41,20 @@ class Column<T>(val name: String, val clazz: Class<T>, val isNullable: Boolean) 
     override fun render(): String {
         return quotedIdentifier(name)
     }
-
-    infix fun to(value: T): Setter {
-        return Setter(this, ScalarExpression(value))
-    }
-
 }
 
 
 class Setter(val field: Expression, var value: Expression)
+class Setters {
+    val setters = mutableSetOf<Setter>()
+    operator fun set(field: Expression, value: Expression) {
+        setters.add(Setter(field, value))
+    }
+
+    inline operator fun <reified T> set(field: Column<T>, value: T) {
+        setters.add(Setter(field, ScalarExpression(value)))
+    }
+}
 
 /**
  * Tables
@@ -73,12 +78,16 @@ class Table(val name: String) : Expression {
         return SelectStatement(Star()).from(this)
     }
 
-    fun insert(vararg values: Setter): InsertStatement {
-        return InsertStatement(* values).into(this)
+    fun insert(function: (builder: Setters) -> Unit): InsertStatement {
+        val builder = Setters()
+        function(builder)
+        return InsertStatement(* builder.setters.toTypedArray()).into(this)
     }
 
-    fun update(vararg values: Setter): UpdateStatement {
-        return UpdateStatement(* values).table(this)
+    fun update(function: (builder: Setters) -> Unit): UpdateStatement {
+        val builder = Setters()
+        function(builder)
+        return UpdateStatement(* builder.setters.toTypedArray()).table(this)
     }
 
     fun delete(): DeleteStatement {

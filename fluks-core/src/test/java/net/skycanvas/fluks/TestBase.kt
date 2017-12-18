@@ -47,37 +47,37 @@ open class TestBase {
 
     fun insertAllValues() {
         db.exec(
-                table.insert(
-                        c_str to strValue,
-                        c_intg to intValue,
-                        c_bool to true,
-                        c_lng to longValue,
-                        c_dbl to doubleValue,
-                        c_flt to floatValue,
-                        c_bts to bytesValue,
-                        c_strn to strValue,
-                        c_intgn to intValue,
-                        c_booln to true,
-                        c_lngn to longValue,
-                        c_dbln to doubleValue,
-                        c_fltn to floatValue,
-                        c_btsn to bytesValue
-                )
+                table.insert {
+                    it[c_str] = strValue
+                    it[c_intg] = intValue
+                    it[c_bool] = true
+                    it[c_lng] = longValue
+                    it[c_dbl] = doubleValue
+                    it[c_flt] = floatValue
+                    it[c_bts] = bytesValue
+                    it[c_strn] = strValue
+                    it[c_intgn] = intValue
+                    it[c_booln] = true
+                    it[c_lngn] = longValue
+                    it[c_dbln] = doubleValue
+                    it[c_fltn] = floatValue
+                    it[c_btsn] = bytesValue
+                }
         )
 
     }
 
     fun insertRequiredValues() {
         db.exec(
-                table.insert(
-                        c_str to strValue,
-                        c_intg to intValue,
-                        c_lng to longValue,
-                        c_dbl to doubleValue,
-                        c_flt to floatValue,
-                        c_bool to true,
-                        c_bts to bytesValue
-                )
+                table.insert {
+                    it[c_str] = strValue
+                    it[c_intg] = intValue
+                    it[c_lng] = longValue
+                    it[c_dbl] = doubleValue
+                    it[c_flt] = floatValue
+                    it[c_bool] = true
+                    it[c_bts] = bytesValue
+                }
         )
 
     }
